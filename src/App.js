@@ -94,6 +94,50 @@ export default App;*/
 
 
 
+
+
+
+
+//Unificación de código BACKEND
+//Conexión con BDD y Consutla SQL básica. Devuelve un Obj.
+
+const dbConnection = require('/config/dbConnection');
+
+module.exports = app => {
+
+    const connection = dbConnection();
+
+    app.get('/', (req, res) =>{
+        
+            //ROBADIN
+            connection.connect(function(err) {
+                if (err) {
+                    console.error('Error de conexion: ' + err.stack);
+                    return;
+                }
+                console.log('Conectado con el identificador ' + connection.threadId);
+            });
+
+
+
+        
+        connection.query('SELECT * FROM Users', (err, result) => {
+            console.log(result);
+//Acá hay que armar un array que atrape el Obj de la consulta para compararlo contra los datos del login.
+//Anular este render si funciona lo anterior
+            res.render('datos/datos', {
+                datos: result
+            });
+
+        });
+    });
+}
+//FIN
+
+
+
+
+
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 
